@@ -1,0 +1,11 @@
+# Réagir aux événements envoyés par un bouton de widget (action « Ping » du template)
+# ou par le raccourci « Envoyer à une web app » (chemin /api/events/skullbridge_widget).
+alias: SkullBridge – bouton widget
+mode: queued
+triggers:
+  - trigger: event
+    event_type: skullbridge_widget
+actions:
+  - action: notify.notify
+    data:
+      message: "Widget SkullBridge : {{ trigger.event.data.button | default('?') }}"

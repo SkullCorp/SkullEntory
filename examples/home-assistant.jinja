@@ -1,0 +1,31 @@
+{#- Template à coller dans SkullBridge (type « Home Assistant (template) »).
+    URL : http://homeassistant.local:8123  ·  Jeton : jeton longue durée (Profil → Sécurité).
+    Les actions appellent l'API REST de HA : /api/services/<domaine>/<service>. -#}
+{%- set temp = states('sensor.temperature_salon') -%}
+{%- set lights_on = states.light | selectattr('state', 'eq', 'on') | list | count -%}
+{%- set battery = states('sensor.telephone_battery_level') | float(0) -%}
+{{ {
+  "title": "Maison",
+  "subtitle": states('sensor.date_time') if states('sensor.date_time') not in ['unknown','unavailable'] else none,
+  "icon": "house.fill",
+  "tint": "#03A9F4",
+  "url": "http://homeassistant.local:8123/lovelace/0",
+  "refresh": 600,
+  "value": temp,
+  "unit": "°C",
+  "gauge": {"value": battery, "min": 0, "max": 100, "label": "Batterie"},
+  "items": [
+    {"label": "Lumières allumées", "value": lights_on, "icon": "lightbulb.fill",
+     "color": "yellow" if lights_on > 0 else "gray"},
+    {"label": "Alarme", "value": states('alarm_control_panel.maison'), "icon": "shield.lefthalf.filled"},
+    {"label": "Porte d'entrée", "value": states('binary_sensor.porte_entree'), "icon": "door.left.hand.closed"}
+  ],
+  "actions": [
+    {"id": "salon", "label": "Salon", "icon": "lightbulb", "url": "/api/services/light/toggle",
+     "body": {"entity_id": "light.salon"}},
+    {"id": "nuit", "label": "Nuit", "icon": "moon.fill", "color": "indigo",
+     "url": "/api/services/script/turn_on", "body": {"entity_id": "script.mode_nuit"}},
+    {"id": "event", "label": "Ping", "icon": "dot.radiowaves.left.and.right",
+     "url": "/api/events/skullbridge_widget", "body": {"button": "ping"}}
+  ]
+} | tojson }}
