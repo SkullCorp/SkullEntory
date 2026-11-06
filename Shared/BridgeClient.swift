@@ -34,7 +34,7 @@ struct BridgeClient: Sendable {
         cfg.timeoutIntervalForResource = timeout * 2
         cfg.requestCachePolicy = .reloadIgnoringLocalCacheData
         cfg.waitsForConnectivity = false
-        cfg.httpAdditionalHeaders = ["User-Agent": "SkullBridge/1.0 (iOS)"]
+        cfg.httpAdditionalHeaders = ["User-Agent": "SkullWidgets/1.0 (iOS)"]
         session = URLSession(configuration: cfg)
     }
 

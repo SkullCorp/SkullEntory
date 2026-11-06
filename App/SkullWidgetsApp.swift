@@ -2,7 +2,7 @@ import AppIntents
 import SwiftUI
 
 @main
-struct SkullBridgeApp: App {
+struct SkullWidgetsApp: App {
     @StateObject private var model = AppModel()
 
     var body: some Scene {
@@ -14,7 +14,7 @@ struct SkullBridgeApp: App {
     }
 }
 
-struct SkullBridgeShortcuts: AppShortcutsProvider {
+struct SkullWidgetsShortcuts: AppShortcutsProvider {
     static var appShortcuts: [AppShortcut] {
         AppShortcut(
             intent: SendToWebAppIntent(),

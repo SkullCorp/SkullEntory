@@ -44,8 +44,8 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild \
-            -project SkullBridge.xcodeproj \
-            -scheme SkullBridge \
+            -project SkullWidgets.xcodeproj \
+            -scheme SkullWidgets \
             -configuration Release \
             -sdk iphoneos \
             -destination 'generic/platform=iOS' \
@@ -55,30 +55,30 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGN_IDENTITY="" \
-            build | tee build.log | grep -E "error:|warning: .*SkullBridge|BUILD (SUCCEEDED|FAILED)" || true
+            build | tee build.log | grep -E "error:|warning: .*SkullWidgets|BUILD (SUCCEEDED|FAILED)" || true
           grep -q "BUILD SUCCEEDED" build.log || { tail -80 build.log; exit 1; }
 
       - name: Pseudo-signature des entitlements + IPA
         run: |
-          APP=build/Build/Products/Release-iphoneos/SkullBridge.app
+          APP=build/Build/Products/Release-iphoneos/SkullWidgets.app
           # AltStore/SideStore lisent les entitlements (App Group) dans la signature : on les injecte avec ldid.
-          ldid -SWidget/SkullBridgeWidget.entitlements "$APP/PlugIns/SkullBridgeWidget.appex/SkullBridgeWidget"
-          ldid -SApp/SkullBridge.entitlements "$APP/SkullBridge"
-          echo "--- entitlements app ---";    ldid -e "$APP/SkullBridge"
-          echo "--- entitlements widget ---"; ldid -e "$APP/PlugIns/SkullBridgeWidget.appex/SkullBridgeWidget"
+          ldid -SWidget/SkullWidgetsWidget.entitlements "$APP/PlugIns/SkullWidgetsWidget.appex/SkullWidgetsWidget"
+          ldid -SApp/SkullWidgets.entitlements "$APP/SkullWidgets"
+          echo "--- entitlements app ---";    ldid -e "$APP/SkullWidgets"
+          echo "--- entitlements widget ---"; ldid -e "$APP/PlugIns/SkullWidgetsWidget.appex/SkullWidgetsWidget"
           mkdir -p dist/Payload
           cp -R "$APP" dist/Payload/
-          (cd dist && zip -qry SkullBridge.ipa Payload && rm -rf Payload)
+          (cd dist && zip -qry SkullWidgets.ipa Payload && rm -rf Payload)
           ls -la dist
 
       - name: Source AltStore / SideStore
         env:
           VERSION: ${{ steps.version.outputs.version }}
-        run: python3 scripts/make_source.py dist/SkullBridge.ipa "$VERSION" "$GITHUB_REPOSITORY" "$GITHUB_REF_NAME" > dist/altstore-source.json
+        run: python3 scripts/make_source.py dist/SkullWidgets.ipa "$VERSION" "$GITHUB_REPOSITORY" "$GITHUB_REF_NAME" > dist/altstore-source.json
 
       - uses: actions/upload-artifact@v4
         with:
-          name: SkullBridge-ipa
+          name: SkullWidgets-ipa
           path: dist/
           retention-days: 30
 
@@ -87,5 +87,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            dist/SkullBridge.ipa
+            dist/SkullWidgets.ipa
             dist/altstore-source.json

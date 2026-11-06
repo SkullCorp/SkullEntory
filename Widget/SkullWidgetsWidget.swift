@@ -42,9 +42,9 @@ struct BridgeProvider: AppIntentTimelineProvider {
 
         guard let source = selected ?? sources.first else {
             let message = store.isShared
-                ? "Ajoute une web app dans SkullBridge"
+                ? "Ajoute une web app dans SkullWidgets"
                 : "App Group indisponible : réinstalle via SideStore/AltStore"
-            return BridgeEntry(date: Date(), sourceID: nil, sourceName: "SkullBridge", payload: nil,
+            return BridgeEntry(date: Date(), sourceID: nil, sourceName: "SkullWidgets", payload: nil,
                                fetchedAt: nil, error: message, lastAction: nil)
         }
 
@@ -100,7 +100,7 @@ struct BridgeWidgetView: View {
 
     private var openURL: URL? {
         var c = URLComponents()
-        c.scheme = "skullbridge"
+        c.scheme = "skullwidgets"
         if let target = payload?.url {
             c.host = "open"
             c.queryItems = [URLQueryItem(name: "url", value: target)]
@@ -288,7 +288,7 @@ struct BridgeWidgetView: View {
 // MARK: - Widget
 
 struct BridgeWidget: Widget {
-    let kind = "SkullBridgeWidget"
+    let kind = "SkullWidgetsWidget"
 
     var body: some WidgetConfiguration {
         AppIntentConfiguration(kind: kind, intent: SelectSourceIntent.self, provider: BridgeProvider()) { entry in
@@ -310,7 +310,7 @@ struct BridgeWidget: Widget {
 }
 
 @main
-struct SkullBridgeWidgetBundle: WidgetBundle {
+struct SkullWidgetsWidgetBundle: WidgetBundle {
     var body: some Widget {
         BridgeWidget()
     }

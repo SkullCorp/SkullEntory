@@ -34,7 +34,7 @@ struct SourcesView: View {
                     ContentUnavailableView {
                         Label("Aucune web app", systemImage: "app.connected.to.app.below.fill")
                     } description: {
-                        Text("Ajoute une URL qui renvoie le JSON SkullBridge, ou ton Home Assistant avec un template.")
+                        Text("Ajoute une URL qui renvoie le JSON SkullWidgets, ou ton Home Assistant avec un template.")
                     } actions: {
                         Button("Ajouter une web app") { editing = Source() }
                             .buttonStyle(.borderedProminent)
@@ -42,7 +42,7 @@ struct SourcesView: View {
                     }
                 }
             }
-            .navigationTitle("SkullBridge")
+            .navigationTitle("SkullWidgets")
             .navigationDestination(for: UUID.self) { id in
                 SourceDetailView(sourceID: id)
             }
@@ -251,7 +251,7 @@ struct SourceEditorView: View {
                 } footer: {
                     Text(source.kind == .homeAssistant
                          ? "URL de base de Home Assistant. Le template ci-dessous est rendu via /api/template."
-                         : "Endpoint qui renvoie le JSON SkullBridge (GET).")
+                         : "Endpoint qui renvoie le JSON SkullWidgets (GET).")
                 }
 
                 Section {
@@ -278,7 +278,7 @@ struct SourceEditorView: View {
                     } header: {
                         Text("Template Jinja")
                     } footer: {
-                        Text("Le template doit produire le JSON SkullBridge. Astuce : construis un dict et termine par « | tojson ».")
+                        Text("Le template doit produire le JSON SkullWidgets. Astuce : construis un dict et termine par « | tojson ».")
                     }
                 }
 
@@ -384,7 +384,7 @@ struct FormatHelpView: View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Ta web app expose une URL qui renvoie ce JSON (tous les champs sont optionnels). Les boutons « actions » apparaissent sur le widget et envoient la requête décrite. Si la réponse d'une action est elle-même un JSON SkullBridge, le widget se met à jour immédiatement.")
+                    Text("Ta web app expose une URL qui renvoie ce JSON (tous les champs sont optionnels). Les boutons « actions » apparaissent sur le widget et envoient la requête décrite. Si la réponse d'une action est elle-même un JSON SkullWidgets, le widget se met à jour immédiatement.")
                         .font(.callout)
                     Text(Self.sampleJSON)
                         .font(.caption.monospaced())
@@ -392,7 +392,7 @@ struct FormatHelpView: View {
                         .padding()
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .background(.quaternary, in: RoundedRectangle(cornerRadius: 12))
-                    Text("Lien d'ajout rapide à mettre dans ta web app :\nskullbridge://add?name=Inventaire&url=https://mon-app.fr/api/widget&token=XXX")
+                    Text("Lien d'ajout rapide à mettre dans ta web app :\nskullwidgets://add?name=Inventaire&url=https://mon-app.fr/api/widget&token=XXX")
                         .font(.caption.monospaced())
                         .textSelection(.enabled)
                 }

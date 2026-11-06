@@ -90,15 +90,15 @@ final class AppModel: ObservableObject {
         WidgetCenter.shared.reloadAllTimelines()
     }
 
-    // MARK: Liens skullbridge://
+    // MARK: Liens skullwidgets://
 
-    /// - `skullbridge://open?url=https://…`           ouvre une URL (utilisé par le tap sur le widget)
-    /// - `skullbridge://source?id=UUID`               affiche une web app
-    /// - `skullbridge://add?name=…&url=…&token=…&kind=json|homeAssistant&header=…`
+    /// - `skullwidgets://open?url=https://…`           ouvre une URL (utilisé par le tap sur le widget)
+    /// - `skullwidgets://source?id=UUID`               affiche une web app
+    /// - `skullwidgets://add?name=…&url=…&token=…&kind=json|homeAssistant&header=…`
     ///                                                propose d'ajouter une web app (lien à mettre dans ta web app)
-    /// - `skullbridge://refresh`                      rafraîchit tout
+    /// - `skullwidgets://refresh`                      rafraîchit tout
     func handle(url: URL) {
-        guard url.scheme == "skullbridge" else { return }
+        guard url.scheme == "skullwidgets" else { return }
         let items = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems ?? []
         func q(_ name: String) -> String? { items.first { $0.name == name }?.value }
 

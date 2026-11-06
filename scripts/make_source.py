@@ -21,8 +21,8 @@ source = {
     "website": base,
     "apps": [
         {
-            "name": "SkullBridge",
-            "bundleIdentifier": "com.skullcorp.skullbridge",
+            "name": "SkullWidgets",
+            "bundleIdentifier": "com.skullcorp.skullwidgets",
             "developerName": "SkullCorp",
             "subtitle": "Widgets iOS pour tes web apps",
             "localizedDescription": "Affiche les infos de tes web apps (ou de Home Assistant) dans des widgets "
@@ -34,7 +34,7 @@ source = {
                 {
                     "version": version,
                     "date": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-                    "downloadURL": f"{base}/releases/download/{tag}/SkullBridge.ipa",
+                    "downloadURL": f"{base}/releases/download/{tag}/SkullWidgets.ipa",
                     "size": os.path.getsize(ipa),
                     "minOSVersion": "17.0",
                 }

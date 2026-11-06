@@ -1,4 +1,4 @@
-{#- Template à coller dans SkullBridge (type « Home Assistant (template) »).
+{#- Template à coller dans SkullWidgets (type « Home Assistant (template) »).
     URL : http://homeassistant.local:8123  ·  Jeton : jeton longue durée (Profil → Sécurité).
     Les actions appellent l'API REST de HA : /api/services/<domaine>/<service>. -#}
 {%- set temp = states('sensor.temperature_salon') -%}
@@ -26,6 +26,6 @@
     {"id": "nuit", "label": "Nuit", "icon": "moon.fill", "color": "indigo",
      "url": "/api/services/script/turn_on", "body": {"entity_id": "script.mode_nuit"}},
     {"id": "event", "label": "Ping", "icon": "dot.radiowaves.left.and.right",
-     "url": "/api/events/skullbridge_widget", "body": {"button": "ping"}}
+     "url": "/api/events/skullwidgets_widget", "body": {"button": "ping"}}
   ]
 } | tojson }}

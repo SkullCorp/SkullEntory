@@ -1,6 +1,6 @@
 name: iOS – TestFlight
 
-# Envoie SkullBridge sur TestFlight (compte Apple Developer payant requis).
+# Envoie SkullWidgets sur TestFlight (compte Apple Developer payant requis).
 # Secrets GitHub à créer (Settings → Secrets and variables → Actions) :
 #   APPLE_TEAM_ID    : identifiant d'équipe (10 caractères, developer.apple.com → Membership)
 #   ASC_KEY_ID       : ID de la clé API App Store Connect (rôle Admin)
@@ -33,11 +33,11 @@ jobs:
         run: |
           set -o pipefail
           xcodebuild archive \
-            -project SkullBridge.xcodeproj \
-            -scheme SkullBridge \
+            -project SkullWidgets.xcodeproj \
+            -scheme SkullWidgets \
             -configuration Release \
             -destination 'generic/platform=iOS' \
-            -archivePath build/SkullBridge.xcarchive \
+            -archivePath build/SkullWidgets.xcarchive \
             DEVELOPMENT_TEAM=${{ secrets.APPLE_TEAM_ID }} \
             CODE_SIGN_STYLE=Automatic \
             CURRENT_PROJECT_VERSION=${{ github.run_number }} \
@@ -62,7 +62,7 @@ jobs:
           </dict></plist>
           PLIST
           xcodebuild -exportArchive \
-            -archivePath build/SkullBridge.xcarchive \
+            -archivePath build/SkullWidgets.xcarchive \
             -exportOptionsPlist ExportOptions.plist \
             -exportPath build/export \
             -allowProvisioningUpdates \

@@ -1,4 +1,4 @@
-name: SkullBridge
+name: SkullWidgets
 options:
   bundleIdPrefix: com.skullcorp
   developmentLanguage: fr
@@ -17,7 +17,7 @@ settings:
     ENABLE_USER_SCRIPT_SANDBOXING: YES
 
 targets:
-  SkullBridge:
+  SkullWidgets:
     type: application
     platform: iOS
     sources:
@@ -26,7 +26,7 @@ targets:
     info:
       path: App/Info.plist
       properties:
-        CFBundleDisplayName: SkullBridge
+        CFBundleDisplayName: SkullWidgets
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         UILaunchScreen: {}
@@ -35,28 +35,28 @@ targets:
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
         UISupportedInterfaceOrientations~ipad: [UIInterfaceOrientationPortrait, UIInterfaceOrientationPortraitUpsideDown, UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
         CFBundleURLTypes:
-          - CFBundleURLName: com.skullcorp.skullbridge
-            CFBundleURLSchemes: [skullbridge]
+          - CFBundleURLName: com.skullcorp.skullwidgets
+            CFBundleURLSchemes: [skullwidgets]
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: true
           NSAllowsLocalNetworking: true
-        NSLocalNetworkUsageDescription: "SkullBridge contacte tes web apps et ton Home Assistant sur le réseau local."
-        ALTAppGroups: [group.com.skullcorp.skullbridge]
+        NSLocalNetworkUsageDescription: "SkullWidgets contacte tes web apps et ton Home Assistant sur le réseau local."
+        ALTAppGroups: [group.com.skullcorp.skullwidgets]
     entitlements:
-      path: App/SkullBridge.entitlements
+      path: App/SkullWidgets.entitlements
       properties:
         com.apple.security.application-groups:
-          - group.com.skullcorp.skullbridge
+          - group.com.skullcorp.skullwidgets
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.skullcorp.skullbridge
+        PRODUCT_BUNDLE_IDENTIFIER: com.skullcorp.skullwidgets
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
     dependencies:
-      - target: SkullBridgeWidget
+      - target: SkullWidgetsWidget
     scheme: {}
 
-  SkullBridgeWidget:
+  SkullWidgetsWidget:
     type: app-extension
     platform: iOS
     sources:
@@ -65,7 +65,7 @@ targets:
     info:
       path: Widget/Info.plist
       properties:
-        CFBundleDisplayName: SkullBridge
+        CFBundleDisplayName: SkullWidgets
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         NSExtension:
@@ -73,14 +73,14 @@ targets:
         NSAppTransportSecurity:
           NSAllowsArbitraryLoads: true
           NSAllowsLocalNetworking: true
-        NSLocalNetworkUsageDescription: "SkullBridge contacte tes web apps et ton Home Assistant sur le réseau local."
-        ALTAppGroups: [group.com.skullcorp.skullbridge]
+        NSLocalNetworkUsageDescription: "SkullWidgets contacte tes web apps et ton Home Assistant sur le réseau local."
+        ALTAppGroups: [group.com.skullcorp.skullwidgets]
     entitlements:
-      path: Widget/SkullBridgeWidget.entitlements
+      path: Widget/SkullWidgetsWidget.entitlements
       properties:
         com.apple.security.application-groups:
-          - group.com.skullcorp.skullbridge
+          - group.com.skullcorp.skullwidgets
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.skullcorp.skullbridge.widget
+        PRODUCT_BUNDLE_IDENTIFIER: com.skullcorp.skullwidgets.widget
         SKIP_INSTALL: YES

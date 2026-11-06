@@ -3,21 +3,21 @@ import Foundation
 /// Résout l'identifiant de l'App Group.
 ///
 /// AltStore / SideStore signent l'app avec ton Apple ID gratuit et renomment l'App Group
-/// (ex. `group.com.skullcorp.skullbridge.ABCDE12345`). Ils écrivent les groupes réels dans la
+/// (ex. `group.com.skullcorp.skullwidgets.ABCDE12345`). Ils écrivent les groupes réels dans la
 /// clé `ALTAppGroups` de l'Info.plist : on la lit (dans l'app ET, depuis le widget, dans l'app parente).
 enum AppGroup {
-    static let base = "group.com.skullcorp.skullbridge"
+    static let base = "group.com.skullcorp.skullwidgets"
 
     static let identifier: String = {
         var candidates: [String] = []
 
         func groups(_ info: [String: Any]?) -> [String] {
-            (info?["ALTAppGroups"] as? [String] ?? []).filter { $0.contains("skullbridge") }
+            (info?["ALTAppGroups"] as? [String] ?? []).filter { $0.contains("skullwidgets") }
         }
 
         candidates += groups(Bundle.main.infoDictionary)
 
-        // Depuis l'extension : …/SkullBridge.app/PlugIns/SkullBridgeWidget.appex
+        // Depuis l'extension : …/SkullWidgets.app/PlugIns/SkullWidgetsWidget.appex
         let parent = Bundle.main.bundleURL.deletingLastPathComponent().deletingLastPathComponent()
         if parent.pathExtension == "app", let app = Bundle(url: parent) {
             candidates += groups(app.infoDictionary)
@@ -54,11 +54,11 @@ final class SharedStore: @unchecked Sendable {
     private init() {
         let fm = FileManager.default
         if let url = fm.containerURL(forSecurityApplicationGroupIdentifier: AppGroup.identifier) {
-            root = url.appendingPathComponent("SkullBridge", isDirectory: true)
+            root = url.appendingPathComponent("SkullWidgets", isDirectory: true)
             isShared = true
         } else {
             let support = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).first ?? fm.temporaryDirectory
-            root = support.appendingPathComponent("SkullBridge", isDirectory: true)
+            root = support.appendingPathComponent("SkullWidgets", isDirectory: true)
             isShared = false
         }
         try? fm.createDirectory(at: root.appendingPathComponent("cache", isDirectory: true),

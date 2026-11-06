@@ -60,7 +60,7 @@ struct SelectSourceIntent: WidgetConfigurationIntent {
 // MARK: - Bouton interactif du widget → requête HTTP vers la web app
 
 struct RunWidgetActionIntent: AppIntent {
-    static let title: LocalizedStringResource = "Action de widget SkullBridge"
+    static let title: LocalizedStringResource = "Action de widget SkullWidgets"
     static let isDiscoverable = false
     static let openAppWhenRun = false
 
@@ -147,8 +147,8 @@ struct SendToWebAppIntent: AppIntent {
 }
 
 struct RefreshWidgetsIntent: AppIntent {
-    static let title: LocalizedStringResource = "Rafraîchir les widgets SkullBridge"
-    static let description = IntentDescription("Force le rechargement de tous les widgets SkullBridge.")
+    static let title: LocalizedStringResource = "Rafraîchir les widgets SkullWidgets"
+    static let description = IntentDescription("Force le rechargement de tous les widgets SkullWidgets.")
     static let openAppWhenRun = false
 
     init() {}

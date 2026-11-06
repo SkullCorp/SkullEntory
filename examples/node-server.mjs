@@ -1,4 +1,4 @@
-// Exemple minimal de web app compatible SkullBridge (Node 18+, aucune dépendance).
+// Exemple minimal de web app compatible SkullWidgets (Node 18+, aucune dépendance).
 //   node examples/node-server.mjs
 //   → dans l'app : URL = http://<ip-du-pc>:3000/api/widget , jeton = secret
 import http from "node:http";
@@ -50,4 +50,4 @@ http.createServer(async (req, res) => {
   if (req.url === "/api/order") { state.orders += 1; return send(200, widget()); }
   if (req.url === "/api/scan") { state.lastScan = body.code ?? body.text ?? "?"; return send(200, widget()); } // via Raccourcis
   send(404, { error: "not found" });
-}).listen(3000, () => console.log("SkullBridge demo sur http://0.0.0.0:3000/api/widget (token:", TOKEN + ")"));
+}).listen(3000, () => console.log("SkullWidgets demo sur http://0.0.0.0:3000/api/widget (token:", TOKEN + ")"));
