@@ -41,6 +41,7 @@ targets:
           NSAllowsArbitraryLoads: true
           NSAllowsLocalNetworking: true
         NSLocalNetworkUsageDescription: "SkullBridge contacte tes web apps et ton Home Assistant sur le réseau local."
+        ALTAppGroups: [group.com.skullcorp.skullbridge]
     entitlements:
       path: App/SkullBridge.entitlements
       properties:
@@ -73,6 +74,7 @@ targets:
           NSAllowsArbitraryLoads: true
           NSAllowsLocalNetworking: true
         NSLocalNetworkUsageDescription: "SkullBridge contacte tes web apps et ton Home Assistant sur le réseau local."
+        ALTAppGroups: [group.com.skullcorp.skullbridge]
     entitlements:
       path: Widget/SkullBridgeWidget.entitlements
       properties:
