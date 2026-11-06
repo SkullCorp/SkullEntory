@@ -1,0 +1,71 @@
+name: iOS – TestFlight
+
+# Envoie SkullBridge sur TestFlight (compte Apple Developer payant requis).
+# Secrets GitHub à créer (Settings → Secrets and variables → Actions) :
+#   APPLE_TEAM_ID    : identifiant d'équipe (10 caractères, developer.apple.com → Membership)
+#   ASC_KEY_ID       : ID de la clé API App Store Connect (rôle Admin)
+#   ASC_ISSUER_ID    : Issuer ID affiché au-dessus de la liste des clés
+#   ASC_KEY_P8       : contenu complet du fichier AuthKey_XXXX.p8
+on:
+  workflow_dispatch:
+
+jobs:
+  testflight:
+    runs-on: macos-15
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Outils
+        run: brew install xcodegen
+
+      - name: Clé API App Store Connect
+        env:
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+        run: |
+          mkdir -p ~/private_keys
+          printf '%s' "$ASC_KEY_P8" > ~/private_keys/AuthKey.p8
+
+      - name: Génère le projet Xcode
+        run: xcodegen generate
+
+      - name: Archive (signature automatique)
+        run: |
+          set -o pipefail
+          xcodebuild archive \
+            -project SkullBridge.xcodeproj \
+            -scheme SkullBridge \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath build/SkullBridge.xcarchive \
+            DEVELOPMENT_TEAM=${{ secrets.APPLE_TEAM_ID }} \
+            CODE_SIGN_STYLE=Automatic \
+            CURRENT_PROJECT_VERSION=${{ github.run_number }} \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath ~/private_keys/AuthKey.p8 \
+            -authenticationKeyID ${{ secrets.ASC_KEY_ID }} \
+            -authenticationKeyIssuerID ${{ secrets.ASC_ISSUER_ID }} \
+            | tee archive.log | grep -E "error:|ARCHIVE (SUCCEEDED|FAILED)" || true
+          grep -q "ARCHIVE SUCCEEDED" archive.log || { tail -80 archive.log; exit 1; }
+
+      - name: Envoi sur TestFlight
+        run: |
+          cat > ExportOptions.plist <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>${{ secrets.APPLE_TEAM_ID }}</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict></plist>
+          PLIST
+          xcodebuild -exportArchive \
+            -archivePath build/SkullBridge.xcarchive \
+            -exportOptionsPlist ExportOptions.plist \
+            -exportPath build/export \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath ~/private_keys/AuthKey.p8 \
+            -authenticationKeyID ${{ secrets.ASC_KEY_ID }} \
+            -authenticationKeyIssuerID ${{ secrets.ASC_ISSUER_ID }}
